@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_teacher"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="Add New Class Session"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name Course"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal">
+
+        <Spinner
+            android:id="@+id/spn_name_courses"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule"
+            android:textColor="@color/black"
+            android:paddingStart="16dp"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start on"
+            android:layout_marginLeft="126dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <Button
+            android:id="@+id/btn_schedule_class"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:paddingStart="8dp"
+            android:background="@drawable/custom_input_add_new"
+            android:text="Schedule"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:gravity="start|center_vertical"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/et_day_of_the_week_class"
+            android:layout_marginLeft="20dp"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:paddingStart="8dp"
+            android:hint="Day of the week"
+            android:textSize="18sp"
+            android:enabled="false"
+            android:background="@drawable/custom_input_add_new"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teacher"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal">
+        <Spinner
+            android:id="@+id/spn_teacher"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal">
+        <EditText
+            android:id="@+id/et_description_class"
+            android:layout_width="380dp"
+            android:layout_height="80dp"
+            android:paddingTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:hint="Description"
+            android:textSize="18sp"
+            android:gravity="top|start"
+            android:scrollbars="vertical"
+            android:maxLines="3"
+            android:background="@drawable/custom_input_add_new"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+        <Button
+            android:id="@+id/btn_cancel_class"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/secondary_color"
+            android:background="@drawable/custom_background_white_stroke_secondary_color_corners_5"/>
+        <Button
+            android:id="@+id/btn_create_class"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_background_secondary_color_stroke_secondary_color_corners_5"/>
+
+    </LinearLayout>
+
+</LinearLayout>

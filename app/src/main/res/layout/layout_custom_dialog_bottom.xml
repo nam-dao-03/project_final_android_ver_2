@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_background_primary_color_corner_5"
+    android:padding="15dp">
+    <TextView
+        android:id="@+id/btn_add_class"
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:layout_height="wrap_content"
+        android:text="Add new class"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/btn_add_course"
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:layout_height="wrap_content"
+        android:text="Add new course"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/btn_add_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/white"
+        android:text="Add new user"
+        android:textSize="18sp"/>
+
+</LinearLayout>

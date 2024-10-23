@@ -6,4 +6,23 @@
     </style>
 
     <style name="Theme.Project_final_ver_01" parent="Base.Theme.Project_final_ver_01" />
+    <style name="DialogSidebarAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_left</item>
+    </style>
+    <style name="DialogBottomAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/primary_color</item>
+        <item name="android:textColorPrimary">@color/light_black</item>
+        <item name="android:datePickerStyle">@style/CustomDatePickerStyle</item>
+    </style>
+
+    <!-- Custom DatePicker Style -->
+    <style name="CustomDatePickerStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:headerBackground">@color/primary_color</item>
+    </style>
 </resources>

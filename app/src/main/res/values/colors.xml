@@ -6,4 +6,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#F2D21E</color>
+    <color name="disable_color">#CCCCCC</color>
+    <color name="light_black">#202124</color>
 </resources>

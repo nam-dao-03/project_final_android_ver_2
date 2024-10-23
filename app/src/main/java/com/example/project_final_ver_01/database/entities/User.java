@@ -1,26 +1,37 @@
 package com.example.project_final_ver_01.database.entities;
 
 public class User {
+    //Table name
     public static final String TABLE_NAME = "user";
+    //Columns name
     public static final String COLUMN_ID = "user_id";
-    public static final String COLUMN_ROLE = "role";
     public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_ROLE = "role";
     public static final String COLUMN_PHONE_NUMBER = "phone_number";
+    public static final String COLUMN_NAME = "user_name";
     public static final String COLUMN_DESCRIPTION = "description";
 
     //Variables
     private int user_id;
-    private String phone_number;
-    private String role;
     private String email;
+    private String role;
+    private String phone_number;
+    private String user_name;
     private String description;
-
-    public User(int user_id, String phone_number, String email, String description, String role) {
+    public User(int user_id, String email, String role, String phone_number, String user_name, String description) {
         this.user_id = user_id;
-        this.phone_number = phone_number;
-        this.role = role;
         this.email = email;
+        this.role = role;
+        this.phone_number = phone_number;
+        this.user_name = user_name;
         this.description = description;
+    }
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getRole() {
@@ -39,8 +50,6 @@ public class User {
         this.email = email;
     }
 
-
-
     public int getId() {
         return user_id;
     }
@@ -57,14 +66,6 @@ public class User {
         this.description = description;
     }
 
-    public String getName() {
-        return email;
-    }
-
-    public void setName(String email) {
-        this.email = email;
-    }
-
     public String getPhone_number() {
         return phone_number;
     }
@@ -79,7 +80,12 @@ public class User {
                     TABLE_NAME + "(" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_EMAIL + " TEXT," +
+                    COLUMN_ROLE + " TEXT," +
                     COLUMN_PHONE_NUMBER + " TEXT," +
+                    COLUMN_NAME + " TEXT," +
                     COLUMN_DESCRIPTION + " TEXT" +
                     ")";
+    //Filter data
+    public static final String GET_USER_LIST =
+            "SELECT * FROM " + TABLE_NAME;
 }

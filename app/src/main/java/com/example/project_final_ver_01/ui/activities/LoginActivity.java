@@ -65,11 +65,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     private void createToast(String input_text_to_toast){
         Toast toast = new Toast(LoginActivity.this);
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_custom_toast_login, this.findViewById(R.id.layout_custom_toast_login));
+        View view = inflater.inflate(R.layout.layout_custom_toast, this.findViewById(R.id.layout_custom_toast));
         TextView text_toast = view.findViewById(R.id.text_toast);
         text_toast.setText(input_text_to_toast);
         toast.setView(view);
