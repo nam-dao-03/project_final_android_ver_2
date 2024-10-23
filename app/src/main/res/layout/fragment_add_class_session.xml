@@ -71,7 +71,7 @@
             android:layout_height="40dp"
             android:paddingStart="8dp"
             android:background="@drawable/custom_input_add_new"
-            android:text="Schedule"
+            android:hint="Schedule"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:gravity="start|center_vertical"
             android:textSize="18sp" />

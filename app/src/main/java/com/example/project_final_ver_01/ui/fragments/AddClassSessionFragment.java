@@ -119,13 +119,14 @@ public class AddClassSessionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
+                    String name_course = ((NameCourseAdapter.NameCourse) spn_name_courses.getSelectedItem()).getName().trim();
                     String schedule_class = btn_schedule_class.getText().toString().trim();
                     String day_of_the_week_class = et_day_of_the_week_class.getText().toString().trim();
                     String teacher = ((TeacherAdapter.Teacher) spn_teacher.getSelectedItem()).getName().trim();
-                    String name_course = ((NameCourseAdapter.NameCourse) spn_name_courses.getSelectedItem()).getName().trim();
                     String description_class = et_description_class.getText().toString().trim();
                     if (name_course.isEmpty() || schedule_class.isEmpty() || day_of_the_week_class.isEmpty() || teacher.isEmpty() || description_class.isEmpty()) {
                         createToast("Please fill full input");
+                        return;
                     }
                     confirmDialog(name_course, schedule_class, day_of_the_week_class, teacher, description_class);
                 } catch (Exception e) {
@@ -164,14 +165,14 @@ public class AddClassSessionFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         dialog.getWindow().setGravity(Gravity.CENTER);
         //Signing variable
-        et_confirm_course_class = mView.findViewById(R.id.et_confirm_course_class);
-        btn_confirm_schedule_class = mView.findViewById(R.id.btn_confirm_schedule_class);
-        et_confirm_day_of_the_week_class = mView.findViewById(R.id.et_confirm_day_of_the_week_class);
-        et_confirm_teacher_class = mView.findViewById(R.id.et_confirm_teacher_class);
-        et_confirm_description_class = mView.findViewById(R.id.et_confirm_description_class);
+        et_confirm_course_class = dialog.findViewById(R.id.et_confirm_course_class);
+        btn_confirm_schedule_class = dialog.findViewById(R.id.btn_confirm_schedule_class);
+        et_confirm_day_of_the_week_class = dialog.findViewById(R.id.et_confirm_day_of_the_week_class);
+        et_confirm_teacher_class = dialog.findViewById(R.id.et_confirm_teacher_class);
+        et_confirm_description_class = dialog.findViewById(R.id.et_confirm_description_class);
 //        //Button action
-        btn_confirm_back_class = mView.findViewById(R.id.btn_confirm_back_class);
-        btn_confirm_submit_class = mView.findViewById(R.id.btn_confirm_submit_class);
+        btn_confirm_back_class = dialog.findViewById(R.id.btn_confirm_back_class);
+        btn_confirm_submit_class = dialog.findViewById(R.id.btn_confirm_submit_class);
 //        //Signing values for widget
         et_confirm_course_class.setText(name_course);
         btn_confirm_schedule_class.setText(schedule_class);
