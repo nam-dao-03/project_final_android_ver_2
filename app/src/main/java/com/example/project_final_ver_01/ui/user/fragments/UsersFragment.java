@@ -1,4 +1,4 @@
-package com.example.project_final_ver_01.ui.fragments;
+package com.example.project_final_ver_01.ui.user.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,8 @@ import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.adapters.ui_components.UserViewHolderAdapter;
 import com.example.project_final_ver_01.database.DatabaseHelper;
 import com.example.project_final_ver_01.database.entities.User;
-import com.example.project_final_ver_01.ui.activities.AdminHomeActivity;
+import com.example.project_final_ver_01.interfaces.IClickItemListener;
+import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
 import java.util.List;
 
@@ -61,13 +62,22 @@ public class UsersFragment extends Fragment {
         rcv_teacher_list.setLayoutManager(linearLayoutManagerTeacher);
         rcv_student_list.setLayoutManager(linearLayoutManagerStudent);
 
-        UserViewHolderAdapter userAdapterTeacher = new UserViewHolderAdapter(getListUser("Teacher"));
+        UserViewHolderAdapter userAdapterTeacher = new UserViewHolderAdapter(getListUser("Teacher"), new IClickItemListener() {
+            @Override
+            public void onClickItem(Object object) {
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailUserFragment(),"object_user", object);
+            }
+        });
         rcv_teacher_list.setAdapter(userAdapterTeacher);
-        UserViewHolderAdapter userAdapterStudent = new UserViewHolderAdapter(getListUser("Student"));
+        UserViewHolderAdapter userAdapterStudent = new UserViewHolderAdapter(getListUser("Student"), new IClickItemListener() {
+            @Override
+            public void onClickItem(Object object) {
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailUserFragment(), "object_user", object);
+            }
+        });
         rcv_student_list.setAdapter(userAdapterStudent);
     }
     private List<User> getListUser(String role){
-        List<User> listUser = databaseHelper.getAllUser(role);
-        return listUser;
+        return databaseHelper.getAllUser(role);
     }
 }

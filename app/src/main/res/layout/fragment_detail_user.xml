@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    tools:context=".ui.user.fragments.DetailUserFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/img_admin"/>
+                <TextView
+                    android:id="@+id/tv_name_detail_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/light_black"
+                    android:textSize="30dp"
+                    android:text="Nam"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:text="Role"/>
+            <TextView
+                android:id="@+id/tv_role_detail_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="@color/primary_color"
+                android:text="Teacher"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:text="Email"/>
+            <TextView
+                android:id="@+id/tv_email_detail_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="@color/primary_color"
+                android:text="namda997@gmail.com"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:text="Phone number"/>
+            <TextView
+                android:id="@+id/tv_phone_number_detail_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="@color/primary_color"
+                android:text="1234567890"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:text="Description"/>
+            <TextView
+                android:id="@+id/tv_description_detail_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/primary_color"
+                android:text="on RecyclerView, you must add the Google Maven repository to your project. Read Google's Maven repository for more information."/>
+            <Button
+                android:id="@+id/btn_update_detail_user"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:text="Update"
+                android:textColor="@color/primary_color"
+                android:background="@drawable/custom_background_white_stroke_primary_color_corners_5"/>
+            <Button
+                android:id="@+id/btn_delete_detail_user"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_background_primary_color_stroke_primary_color_corners_5"
+                android:text="Delete"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

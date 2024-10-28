@@ -1,4 +1,4 @@
-package com.example.project_final_ver_01.ui.fragments;
+package com.example.project_final_ver_01.ui.user.fragments;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.adapters.non_ui_components.RoleUserAdapter;
 import com.example.project_final_ver_01.database.DatabaseHelper;
 import com.example.project_final_ver_01.database.entities.User;
-import com.example.project_final_ver_01.ui.activities.AdminHomeActivity;
+import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.Objects;
 
 public class AddUsersFragment extends Fragment {
     //Define widgets in Fragment
+    private View mView;
     private Spinner spn_role_user;
     private RoleUserAdapter roleUserAdapter;
     private EditText et_email_user, et_name_user, et_phone_number_user, et_description_user;
@@ -37,7 +39,6 @@ public class AddUsersFragment extends Fragment {
     //Define widgets in dialog
     private EditText et_confirm_email_user, et_confirm_role_user, et_confirm_name_user, et_confirm_phone_number_user, et_confirm_description_user;
     private Button btn_dismiss_dialog_confirm_users, btn_submit_dialog_confirm_users;
-    private View mView;
     //Define activity that fragment is holding
     private AdminHomeActivity mAdminHomeActivity;
     //Define Object
@@ -58,7 +59,7 @@ public class AddUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_add_users, container, false);
+        mView = inflater.inflate(R.layout.fragment_add_update_users, container, false);
         initUI();
         setListenersForWidget();
         return mView;
@@ -85,7 +86,7 @@ public class AddUsersFragment extends Fragment {
         btn_cancel_users.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdminHomeActivity.replaceFragment(new YogaCourseFragment());
+                mAdminHomeActivity.replaceFragment(new UsersFragment());
             }
         });
         btn_submit_users.setOnClickListener(new View.OnClickListener() {
@@ -95,15 +96,19 @@ public class AddUsersFragment extends Fragment {
                     String email_user = et_email_user.getText().toString().trim();
                     String role_user = ((RoleUserAdapter.RoleUser) spn_role_user.getSelectedItem()).getName().trim();
                     String phone_number_user = et_phone_number_user.getText().toString().trim();
-                    String name_user = et_name_user.getText().toString().trim();
+                    String user_name = et_name_user.getText().toString().trim();
                     String description_user = et_description_user.getText().toString().trim();
-                    if(email_user.isEmpty() || role_user.isEmpty() || name_user.isEmpty() || phone_number_user.isEmpty() || description_user.isEmpty()) {
-                        createToast("Please fill full input");
+                    if(email_user.isEmpty() || role_user.isEmpty() || user_name.isEmpty() || phone_number_user.isEmpty() || description_user.isEmpty()) {
+                        createToast("Please fill full input", R.drawable.baseline_warning_24);
                         return;
                     }
-                    confirmDialog(email_user,role_user,phone_number_user,name_user,description_user);
+                    if(checkUniqueUser(user_name)) {
+                        createToast("Already have user name", R.drawable.baseline_warning_24);
+                        return;
+                    }
+                    confirmDialog(email_user,role_user,phone_number_user,user_name,description_user);
                 } catch (Exception e) {
-                    createToast(e.toString());
+                    createToast(e.toString(), R.drawable.baseline_warning_24);
                 }
             }
         });
@@ -112,7 +117,7 @@ public class AddUsersFragment extends Fragment {
         //Define dialog
         final Dialog dialog = new Dialog(requireActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_custom_dialog_confirm_add_user);
+        dialog.setContentView(R.layout.layout_custom_dialog_confirm_add_update_user);
         dialog.show();
         Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
@@ -148,14 +153,14 @@ public class AddUsersFragment extends Fragment {
                 try {
                     boolean result = databaseHelper.addUser(user);
                     if(!result) {
-                        Toast.makeText(mAdminHomeActivity, "Error", Toast.LENGTH_SHORT).show();
+                        createToast("Error", R.drawable.baseline_warning_24);
                         return;
                     }
-                    Toast.makeText(mAdminHomeActivity, "Add Success", Toast.LENGTH_SHORT).show();
+                    createToast("Add Success", R.drawable.baseline_check_circle_24);
                     dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new UsersFragment());
                 } catch (Exception e){
-                    Toast.makeText(mAdminHomeActivity, "Error", Toast.LENGTH_SHORT).show();
+                    createToast("Error", R.drawable.baseline_warning_24);
                 }
             }
         });
@@ -168,14 +173,24 @@ public class AddUsersFragment extends Fragment {
         roleUserAdapter = new RoleUserAdapter(requireContext(), R.layout.item_dropdown_selected, list);
         spn_role_user.setAdapter(roleUserAdapter);
     }
-    private void createToast(String input_text_to_toast){
-        Toast toast = new Toast(getContext());
+    private boolean checkUniqueUser(String user_name) {
+        List<User> userList = databaseHelper.getAllUser();
+        for (User user : userList) {
+            if ((user.getUser_name().trim()).equalsIgnoreCase(user_name)) return true;
+        }
+        return false;
+    }
+    private void createToast(String input_text_to_toast, int imageResId){
+        Toast toast = new Toast(requireContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_custom_toast, mView.findViewById(R.id.layout_custom_toast));
         TextView text_toast = view.findViewById(R.id.text_toast);
+        ImageView img_icon_toast = view.findViewById(R.id.img_icon_toast);
         text_toast.setText(input_text_to_toast);
+        img_icon_toast.setImageResource(imageResId);
         toast.setView(view);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
     }
+
 }

@@ -8,17 +8,17 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_header_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:text="Add New Class Session"
+        android:text="Add New User"
+        android:textSize="30dp"
         android:textColor="@color/black"
-        android:textSize="30dp" />
-
+        android:padding="15dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name Course"
+        android:text="Email"
         android:textColor="@color/black"
         android:paddingStart="16dp"
         android:textSize="18sp"/>
@@ -30,67 +30,63 @@
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
 
+        <EditText
+            android:id="@+id/et_email_user"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_input_add_new"
+            android:hint="Email"
+            android:paddingStart="8dp"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Role"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="8dp">
         <Spinner
-            android:id="@+id/spn_name_courses"
+            android:id="@+id/spn_role_user"
             android:layout_width="380dp"
             android:layout_height="40dp"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:textSize="18sp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Schedule"
-            android:textColor="@color/black"
-            android:paddingStart="16dp"
-            android:textSize="18sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start on"
-            android:layout_marginLeft="126dp"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
-        android:gravity="center_vertical|center_horizontal">
-
-        <Button
-            android:id="@+id/btn_schedule_class"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
-            android:paddingStart="8dp"
-            android:background="@drawable/custom_input_add_new"
-            android:hint="Schedule"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:gravity="start|center_vertical"
-            android:textSize="18sp" />
+        android:gravity="center_horizontal">
         <EditText
-            android:id="@+id/et_day_of_the_week_class"
-            android:layout_marginLeft="20dp"
-            android:layout_width="180dp"
+            android:id="@+id/et_name_user"
+            android:layout_width="380dp"
             android:layout_height="40dp"
             android:paddingStart="8dp"
-            android:hint="Day of the week"
+            android:hint="Name"
             android:textSize="18sp"
-            android:enabled="false"
             android:background="@drawable/custom_input_add_new"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Teacher"
+        android:text="Phone Number"
         android:textColor="@color/black"
         android:paddingStart="16dp"
         android:textSize="18sp"/>
@@ -101,11 +97,15 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
-        <Spinner
-            android:id="@+id/spn_teacher"
+        <EditText
+            android:id="@+id/et_phone_number_user"
             android:layout_width="380dp"
             android:layout_height="40dp"
-            android:background="@android:color/transparent"/>
+            android:paddingStart="8dp"
+            android:hint="Phone Number"
+            android:textSize="18sp"
+            android:inputType="number"
+            android:background="@drawable/custom_input_add_new"/>
     </LinearLayout>
 
     <TextView
@@ -123,7 +123,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
         <EditText
-            android:id="@+id/et_description_class"
+            android:id="@+id/et_description_user"
             android:layout_width="380dp"
             android:layout_height="80dp"
             android:paddingTop="8dp"
@@ -144,7 +144,7 @@
         android:gravity="center"
         android:layout_marginTop="20dp">
         <Button
-            android:id="@+id/btn_cancel_class"
+            android:id="@+id/btn_cancel_users"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="Cancel"
@@ -152,7 +152,7 @@
             android:textColor="@color/secondary_color"
             android:background="@drawable/custom_background_white_stroke_secondary_color_corners_5"/>
         <Button
-            android:id="@+id/btn_create_class"
+            android:id="@+id/btn_create_users"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="Create"

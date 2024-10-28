@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:id="@+id/card_item_yoga_course"
+    android:id="@+id/card_item_class_instance"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -27,34 +27,53 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_name_course"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="">
+                <TextView
+                    android:id="@+id/tv_name_course"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/light_black"
+                    android:text="Course: GW_COMP1649"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/tv_teacher"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/light_black"
+                    android:text="Teacher: Dinh Duc Manh"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_schedule"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="18sp"
                 android:textColor="@color/light_black"
-                android:text="Course: GW_COMP1649"/>
+                android:text="Schedule: 20/11/2024"/>
             <TextView
-                android:id="@+id/tv_type_of_class"
+                android:id="@+id/tv_day_of_the_week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"
                 android:textSize="18sp"
                 android:textColor="@color/light_black"
-                android:text="Type: Flow Yoga"/>
-            <TextView
-                android:id="@+id/tv_teacher_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:textColor="@color/light_black"
-                android:text="Teacher: Dinh Duc Manh"/>
+                android:text="Start on: Friday"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -11,15 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.database.entities.User;
+import com.example.project_final_ver_01.interfaces.IClickItemListener;
 
 import java.util.List;
 
 public class UserViewHolderAdapter extends RecyclerView.Adapter<UserViewHolderAdapter.UserViewHolder> {
     private List<User> mListUser;
+    private IClickItemListener mIClickItemListener;
 
-
-    public UserViewHolderAdapter(List<User> mListUser) {
+    public UserViewHolderAdapter(List<User> mListUser, IClickItemListener iClickItemListener) {
         this.mListUser = mListUser;
+        this.mIClickItemListener = iClickItemListener;
     }
     @NonNull
     @Override
@@ -35,7 +37,7 @@ public class UserViewHolderAdapter extends RecyclerView.Adapter<UserViewHolderAd
         holder.card_item_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mIClickItemListener.onClickItem(user);
             }
         });
         holder.tv_user.setText(user.getEmail());

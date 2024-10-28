@@ -1,11 +1,13 @@
-package com.example.project_final_ver_01.ui.activities;
+package com.example.project_final_ver_01.ui.login.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,19 +60,21 @@ public class LoginActivity extends AppCompatActivity {
 //                    };
                     Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
                     startActivity(activity_admin_home);
-                    createToast("Invalid Email or Password");
+                    createToast("Invalid Email or Password", R.drawable.baseline_warning_24);
                 } catch (Exception e) {
-                    createToast("Missing Email or Password");
+                    createToast("Missing Email or Password", R.drawable.baseline_warning_24);
                 }
             }
         });
     }
-    private void createToast(String input_text_to_toast){
+    private void createToast(String input_text_to_toast, int imageResId){
         Toast toast = new Toast(LoginActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_custom_toast, this.findViewById(R.id.layout_custom_toast));
         TextView text_toast = view.findViewById(R.id.text_toast);
+        ImageView img_icon_toast = view.findViewById(R.id.img_icon_toast);
         text_toast.setText(input_text_to_toast);
+        img_icon_toast.setImageResource(imageResId);
         toast.setView(view);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();

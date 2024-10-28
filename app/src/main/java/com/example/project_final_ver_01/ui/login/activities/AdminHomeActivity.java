@@ -1,4 +1,4 @@
-package com.example.project_final_ver_01.ui.activities;
+package com.example.project_final_ver_01.ui.login.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,13 +28,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.database.DatabaseHelper;
+import com.example.project_final_ver_01.database.entities.User;
+import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
-import com.example.project_final_ver_01.ui.fragments.AddClassSessionFragment;
-import com.example.project_final_ver_01.ui.fragments.AddCoursesFragment;
-import com.example.project_final_ver_01.ui.fragments.AddUsersFragment;
-import com.example.project_final_ver_01.ui.fragments.DetailYogaCourseFragment;
-import com.example.project_final_ver_01.ui.fragments.UsersFragment;
-import com.example.project_final_ver_01.ui.fragments.YogaCourseFragment;
+import com.example.project_final_ver_01.ui.class_instance.fragments.AddYogaClassInstanceFragment;
+import com.example.project_final_ver_01.ui.yoga_course.fragments.AddCoursesFragment;
+import com.example.project_final_ver_01.ui.user.fragments.AddUsersFragment;
+import com.example.project_final_ver_01.ui.class_instance.fragments.YogaClassInstanceFragment;
+import com.example.project_final_ver_01.ui.user.fragments.UsersFragment;
+import com.example.project_final_ver_01.ui.yoga_course.fragments.YogaCourseFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -45,9 +47,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     //In sidebar and floating action button
     private ImageView btn_img_side_bar, btn_img_search;
     private FloatingActionButton fab_add;
-    private CardView card_sign_out;
-    private CardView card_course_list;
-    private CardView card_people;
+    private CardView card_sign_out, card_course_list, card_people, card_class;
     //In dialog bottom when click floating action button
     private TextView btn_add_course,btn_add_users, btn_add_class;
     private DatabaseHelper databaseHelper;
@@ -116,6 +116,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         card_sign_out = dialog.findViewById(R.id.card_sign_out);
         card_course_list = dialog.findViewById(R.id.card_course_list);
         card_people = dialog.findViewById(R.id.card_people);
+        card_class = dialog.findViewById(R.id.card_class);
         //Set listener for cards
         card_sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +136,13 @@ public class AdminHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 replaceFragment(new UsersFragment());
+                dialog.dismiss();
+            }
+        });
+        card_class.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new YogaClassInstanceFragment());
                 dialog.dismiss();
             }
         });
@@ -179,17 +187,31 @@ public class AdminHomeActivity extends AppCompatActivity {
     }
 
     //Manage Fragments
-    public void goToDetailYogaCourseFragment(YogaCourse yogaCourse){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        DetailYogaCourseFragment detailYogaCourseFragment = new DetailYogaCourseFragment();
+//    public void goToDetailYogaCourseFragment(YogaCourse yogaCourse){
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        DetailYogaCourseFragment detailYogaCourseFragment = new DetailYogaCourseFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("object_yoga_course", yogaCourse);
+//        detailYogaCourseFragment.setArguments(bundle);
+//
+//        fragmentTransaction.replace(R.id.content_frame, detailYogaCourseFragment);
+//        fragmentTransaction.addToBackStack(DetailYogaCourseFragment.TAG);
+//        fragmentTransaction.commit();
+//    }
+    public void transferDataToFragmentPage(Fragment fragment, String key, Object object) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("object_yoga_course", yogaCourse);
-        detailYogaCourseFragment.setArguments(bundle);
-
-        fragmentTransaction.replace(R.id.content_frame, detailYogaCourseFragment);
-        fragmentTransaction.addToBackStack(DetailYogaCourseFragment.TAG);
-        fragmentTransaction.commit();
-    }
+        if(object instanceof YogaCourse) {
+            bundle.putSerializable(key, (YogaCourse) object);
+        }
+        if(object instanceof User) {
+            bundle.putSerializable(key, (User) object);
+        }
+        if(object instanceof YogaClassInstance) {
+            bundle.putSerializable(key, (YogaClassInstance) object);
+        }
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
+            }
     private void showAddUsersFragment(){
         replaceFragment(new AddUsersFragment());
     }
@@ -197,7 +219,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         replaceFragment(new AddCoursesFragment());
     }
     private void showAddClassSessionFragment(){
-        replaceFragment(new AddClassSessionFragment());
+        replaceFragment(new AddYogaClassInstanceFragment());
     }
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

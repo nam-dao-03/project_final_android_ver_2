@@ -1,6 +1,8 @@
 package com.example.project_final_ver_01.database.entities;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     //Table name
     public static final String TABLE_NAME = "user";
     //Columns name

@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_teacher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="15dp">
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_header_class_instance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="Add New Class Session"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add User?"
-        android:textSize="30dp"
+        android:text="Name Course"
         android:textColor="@color/black"
-        android:paddingBottom="15dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:paddingStart="1dp"
-        android:textColor="@color/black"
+        android:paddingStart="16dp"
         android:textSize="18sp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,12 +30,60 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
-        <EditText
-            android:id="@+id/et_confirm_email_user"
+
+        <Spinner
+            android:id="@+id/spn_name_courses"
             android:layout_width="380dp"
             android:layout_height="40dp"
+
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule"
+            android:textColor="@color/black"
+            android:paddingStart="16dp"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start on"
+            android:layout_marginLeft="126dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <Button
+            android:id="@+id/btn_schedule_class"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
             android:paddingStart="8dp"
-            android:hint="Email"
+            android:background="@drawable/custom_input_add_new"
+            android:hint="Schedule"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:gravity="start|center_vertical"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/et_day_of_the_week_class"
+            android:layout_marginLeft="20dp"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:paddingStart="8dp"
+            android:hint="Day of the week"
             android:textSize="18sp"
             android:enabled="false"
             android:background="@drawable/custom_input_add_new"/>
@@ -42,9 +92,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Role"
+        android:text="Teacher"
         android:textColor="@color/black"
-        android:paddingStart="1dp"
+        android:paddingStart="16dp"
         android:textSize="18sp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,66 +103,11 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
-        <EditText
-            android:id="@+id/et_confirm_role_user"
+        <Spinner
+            android:id="@+id/spn_teacher"
             android:layout_width="380dp"
             android:layout_height="40dp"
-            android:paddingStart="8dp"
-            android:hint="User Role"
-            android:textSize="18sp"
-            android:enabled="false"
-            android:background="@drawable/custom_input_add_new"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textColor="@color/black"
-        android:paddingStart="1dp"
-        android:textSize="18sp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_horizontal">
-        <EditText
-            android:id="@+id/et_confirm_name_user"
-            android:layout_width="380dp"
-            android:layout_height="40dp"
-            android:paddingStart="8dp"
-            android:hint="Name"
-            android:textSize="18sp"
-            android:enabled="false"
-            android:background="@drawable/custom_input_add_new"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone Number"
-        android:textColor="@color/black"
-        android:paddingStart="1dp"
-        android:textSize="18sp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_horizontal">
-        <EditText
-            android:id="@+id/et_confirm_phone_number_user"
-            android:layout_width="380dp"
-            android:layout_height="40dp"
-            android:paddingStart="8dp"
-            android:hint="Phone Number"
-            android:textSize="18sp"
-            android:inputType="phone"
-            android:enabled="false"
-            android:background="@drawable/custom_input_add_new"/>
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
     <TextView
@@ -120,7 +115,7 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:textColor="@color/black"
-        android:paddingStart="1dp"
+        android:paddingStart="16dp"
         android:textSize="18sp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +125,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal">
         <EditText
-            android:id="@+id/et_confirm_description_user"
+            android:id="@+id/et_description_class"
             android:layout_width="380dp"
             android:layout_height="80dp"
             android:paddingTop="8dp"
@@ -141,7 +136,6 @@
             android:gravity="top|start"
             android:scrollbars="vertical"
             android:maxLines="3"
-            android:enabled="false"
             android:background="@drawable/custom_input_add_new"/>
     </LinearLayout>
 
@@ -152,20 +146,21 @@
         android:gravity="center"
         android:layout_marginTop="20dp">
         <Button
-            android:id="@+id/btn_dismiss_dialog_confirm_users"
+            android:id="@+id/btn_cancel_class"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="Cancel"
             android:layout_marginRight="20dp"
             android:textColor="@color/secondary_color"
             android:background="@drawable/custom_background_white_stroke_secondary_color_corners_5"/>
         <Button
-            android:id="@+id/btn_submit_dialog_confirm_users"
+            android:id="@+id/btn_create_class"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="Create"
             android:textColor="@color/white"
             android:background="@drawable/custom_background_secondary_color_stroke_secondary_color_corners_5"/>
 
     </LinearLayout>
+
 </LinearLayout>

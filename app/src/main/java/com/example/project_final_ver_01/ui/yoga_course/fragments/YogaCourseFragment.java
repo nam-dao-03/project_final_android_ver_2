@@ -1,4 +1,4 @@
-package com.example.project_final_ver_01.ui.fragments;
+package com.example.project_final_ver_01.ui.yoga_course.fragments;
 
 import android.os.Bundle;
 
@@ -14,9 +14,9 @@ import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.adapters.ui_components.YogaCourseViewHolderAdapter;
 import com.example.project_final_ver_01.database.DatabaseHelper;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
-import com.example.project_final_ver_01.ui.activities.AdminHomeActivity;
+import com.example.project_final_ver_01.interfaces.IClickItemListener;
+import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,15 +43,6 @@ public class YogaCourseFragment extends Fragment {
         // Inflate the layout for this fragment
         mView =  inflater.inflate(R.layout.fragment_yoga_course, container, false);
         initUI();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mAdminHomeActivity);
-        rcv_yoga_course_list.setLayoutManager(linearLayoutManager);
-        YogaCourseViewHolderAdapter yogaCourseAdapter = new YogaCourseViewHolderAdapter(getListYogaCourse(), new YogaCourseViewHolderAdapter.IClickItemListener() {
-            @Override
-            public void onClickItemYogaCourse(YogaCourse yogaCourse) {
-                mAdminHomeActivity.goToDetailYogaCourseFragment(yogaCourse);
-            }
-        });
-        rcv_yoga_course_list.setAdapter(yogaCourseAdapter);
         return mView;
     }
 
@@ -62,11 +53,19 @@ public class YogaCourseFragment extends Fragment {
         mAdminHomeActivity = (AdminHomeActivity) requireActivity();
         //Database
         databaseHelper = mAdminHomeActivity.getDatabaseHelper();
+        //Render data
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mAdminHomeActivity);
+        rcv_yoga_course_list.setLayoutManager(linearLayoutManager);
+        YogaCourseViewHolderAdapter yogaCourseAdapter = new YogaCourseViewHolderAdapter(getListYogaCourse(), new IClickItemListener() {
+            @Override
+            public void onClickItem(Object object) {
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaCourseFragment(),"object_yoga_course", object);
+            }
+        });
+        rcv_yoga_course_list.setAdapter(yogaCourseAdapter);
     }
 
     private List<YogaCourse> getListYogaCourse() {
-        List<YogaCourse> list = new ArrayList<>();
-        list = databaseHelper.getALlYogaCourse();
-        return list;
+        return databaseHelper.getALlYogaCourse();
     }
 }
