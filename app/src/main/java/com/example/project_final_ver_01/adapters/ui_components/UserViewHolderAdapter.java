@@ -51,7 +51,7 @@ public class UserViewHolderAdapter extends RecyclerView.Adapter<UserViewHolderAd
         return 0;
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
         private CardView card_item_user;
         private TextView tv_user;
         public UserViewHolder(@NonNull View itemView) {

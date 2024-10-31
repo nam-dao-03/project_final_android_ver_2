@@ -32,10 +32,13 @@ import com.example.project_final_ver_01.database.entities.User;
 import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
 import com.example.project_final_ver_01.ui.class_instance.fragments.AddYogaClassInstanceFragment;
+import com.example.project_final_ver_01.ui.class_instance.fragments.DetailYogaClassInstanceFragment;
+import com.example.project_final_ver_01.ui.search.activities.SearchActivity;
 import com.example.project_final_ver_01.ui.yoga_course.fragments.AddCoursesFragment;
 import com.example.project_final_ver_01.ui.user.fragments.AddUsersFragment;
 import com.example.project_final_ver_01.ui.class_instance.fragments.YogaClassInstanceFragment;
 import com.example.project_final_ver_01.ui.user.fragments.UsersFragment;
+import com.example.project_final_ver_01.ui.yoga_course.fragments.DetailYogaCourseFragment;
 import com.example.project_final_ver_01.ui.yoga_course.fragments.YogaCourseFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,6 +54,12 @@ public class AdminHomeActivity extends AppCompatActivity {
     //In dialog bottom when click floating action button
     private TextView btn_add_course,btn_add_users, btn_add_class;
     private DatabaseHelper databaseHelper;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createYogaClassFromSearch();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +82,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.content_frame, new YogaCourseFragment());
         fragmentTransaction.commit();
 
+
         btn_img_side_bar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +93,9 @@ public class AdminHomeActivity extends AppCompatActivity {
         btn_img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent search_activity = new Intent(AdminHomeActivity.this, SearchActivity.class);
+                startActivity(search_activity);
+                finish();
             }
         });
 
@@ -123,6 +135,7 @@ public class AdminHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent login_activity = new Intent(AdminHomeActivity.this, LoginActivity.class);
                 startActivity(login_activity);
+                finish();
             }
         });
         card_course_list.setOnClickListener(new View.OnClickListener() {
@@ -185,19 +198,11 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         });
     }
-
-    //Manage Fragments
-//    public void goToDetailYogaCourseFragment(YogaCourse yogaCourse){
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        DetailYogaCourseFragment detailYogaCourseFragment = new DetailYogaCourseFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("object_yoga_course", yogaCourse);
-//        detailYogaCourseFragment.setArguments(bundle);
-//
-//        fragmentTransaction.replace(R.id.content_frame, detailYogaCourseFragment);
-//        fragmentTransaction.addToBackStack(DetailYogaCourseFragment.TAG);
-//        fragmentTransaction.commit();
-//    }
+    private void createYogaClassFromSearch(){
+        YogaClassInstance yogaClassInstance = (YogaClassInstance) getIntent().getSerializableExtra("object_yoga_class_instance");
+        if(yogaClassInstance == null) return;
+        transferDataToFragmentPage(new DetailYogaClassInstanceFragment(), "object_yoga_class_instance", yogaClassInstance);
+    }
     public void transferDataToFragmentPage(Fragment fragment, String key, Object object) {
         Bundle bundle = new Bundle();
         if(object instanceof YogaCourse) {

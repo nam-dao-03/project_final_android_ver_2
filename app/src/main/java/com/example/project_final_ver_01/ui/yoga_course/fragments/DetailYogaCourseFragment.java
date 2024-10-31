@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,11 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.project_final_ver_01.R;
+import com.example.project_final_ver_01.adapters.ui_components.ListClassInDetailCourseViewHolderAdapter;
 import com.example.project_final_ver_01.database.DatabaseHelper;
+import com.example.project_final_ver_01.database.entities.User;
+import com.example.project_final_ver_01.database.entities.UserYogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
+import com.example.project_final_ver_01.interfaces.IClickItemListener;
+import com.example.project_final_ver_01.ui.class_instance.fragments.DetailYogaClassInstanceFragment;
 import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,11 +41,13 @@ public class DetailYogaCourseFragment extends Fragment {
     private ImageView img_decoration_detail_course;
     private View mView;
     private Button btn_delete_detail_course, btn_update_detail_course;
+    private RecyclerView rcv_class_instance;
     //Define widgets in dialog
     private TextView tv_delete_name,tv_action_no, tv_action_yes;
     //Receive data
     private Bundle bundleReceive;
     private YogaCourse yogaCourse;
+
     //Define Activity
     private AdminHomeActivity mAdminHomeActivity;
     //Define Database
@@ -79,6 +89,7 @@ public class DetailYogaCourseFragment extends Fragment {
         tv_description_detail_course = mView.findViewById(R.id.tv_description_detail_course);
         btn_delete_detail_course = mView.findViewById(R.id.btn_delete_detail_course);
         btn_update_detail_course = mView.findViewById(R.id.btn_update_detail_course);
+        rcv_class_instance = mView.findViewById(R.id.rcv_class_instance);
 
         //Signing variable
         bundleReceive = getArguments();
@@ -100,6 +111,18 @@ public class DetailYogaCourseFragment extends Fragment {
             img_decoration_detail_course.setImageResource(R.drawable.img_yoga_class_03);
         tv_price_per_class_detail_course.setText("Price: " + yogaCourse.getPrice_per_class() + "$");
         tv_description_detail_course.setText(yogaCourse.getDescriptions());
+
+        //Class Instance List
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
+        linearLayoutManager.setReverseLayout(true);
+        rcv_class_instance.setLayoutManager(linearLayoutManager);
+        ListClassInDetailCourseViewHolderAdapter listClassInDetailCourseViewHolderAdapter = new ListClassInDetailCourseViewHolderAdapter(getClassInstanceList(), getUserYogaClassInstanceList(), getUserList("Teacher"),new IClickItemListener() {
+            @Override
+            public void onClickItem(Object object) {
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaClassInstanceFragment(), "object_yoga_class_instance", object);
+            }
+        });
+        rcv_class_instance.setAdapter(listClassInDetailCourseViewHolderAdapter);
     }
 
     private void setListenersForWidget(){
@@ -170,6 +193,22 @@ public class DetailYogaCourseFragment extends Fragment {
         }
         return false;
     }
+    private List<YogaClassInstance> getClassInstanceList() {
+        List<YogaClassInstance> list = databaseHelper.getAllYogaClassInstance();
+        List<YogaClassInstance> yogaClassInstanceList = new ArrayList<>();
+        for(YogaClassInstance yogaClassInstance: list) {
+            if(yogaClassInstance.getYoga_course_id() == yogaCourse.getId()) {
+                yogaClassInstanceList.add(yogaClassInstance);
+            }
+        }
+        return yogaClassInstanceList;
+    }
+    private List<UserYogaClassInstance> getUserYogaClassInstanceList(){
+        return databaseHelper.getAllUserYogaClassInstance();
+    }
+    private List<User> getUserList(String role){
+        return databaseHelper.getAllUser(role);
+    }
     private void createToast(String input_text_to_toast, int imageResId){
         Toast toast = new Toast(requireContext());
         LayoutInflater inflater = getLayoutInflater();
@@ -182,4 +221,5 @@ public class DetailYogaCourseFragment extends Fragment {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
     }
+
 }

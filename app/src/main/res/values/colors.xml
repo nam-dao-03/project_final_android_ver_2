@@ -8,4 +8,5 @@
     <color name="yellow">#F2D21E</color>
     <color name="disable_color">#CCCCCC</color>
     <color name="light_black">#202124</color>
+    <color name="white_hint">#E0E0E0</color>
 </resources>

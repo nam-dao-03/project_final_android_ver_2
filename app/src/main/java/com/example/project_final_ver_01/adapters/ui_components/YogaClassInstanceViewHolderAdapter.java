@@ -1,9 +1,12 @@
 package com.example.project_final_ver_01.adapters.ui_components;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,22 +20,37 @@ import com.example.project_final_ver_01.database.entities.UserYogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
 import com.example.project_final_ver_01.interfaces.IClickItemListener;
+import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<YogaClassInstanceViewHolderAdapter.YogaClassInstanceViewHolder> {
+public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<YogaClassInstanceViewHolderAdapter.YogaClassInstanceViewHolder> implements Filterable {
     private List<User> mUserList;
     private List<UserYogaClassInstance> mUserYogaClassInstanceList;
-    private List<YogaClassInstance> mListYogaClassInstance;
+    private List<YogaClassInstance> mYogaClassInstanceList;
+    private List<YogaClassInstance> mYogaClassInstancesSearchList;
     private List<YogaCourse> mListYogaCourse;
     private IClickItemListener mIClickItemListener;
-    public YogaClassInstanceViewHolderAdapter(List<YogaClassInstance> yogaClassInstances, List<YogaCourse> yogaCourses, List<User> mUserList, List<UserYogaClassInstance> mUserYogaClassInstanceList, IClickItemListener iClickItemListener) {
-        this.mListYogaClassInstance = yogaClassInstances;
+    private String filterOption;
+    public YogaClassInstanceViewHolderAdapter(List<YogaClassInstance> mYogaClassInstancesList, List<YogaCourse> yogaCourses, List<User> mUserList, List<UserYogaClassInstance> mUserYogaClassInstanceList, IClickItemListener iClickItemListener) {
+        this.mYogaClassInstanceList = mYogaClassInstancesList;
+        this.mYogaClassInstancesSearchList = mYogaClassInstancesList;
         this.mListYogaCourse = yogaCourses;
         this.mUserList = mUserList;
         this.mUserYogaClassInstanceList = mUserYogaClassInstanceList;
         this.mIClickItemListener = iClickItemListener;
     }
+
+    public void setFilterOption(String filterOption) {
+        this.filterOption = filterOption;
+    }
+
+    public void setYogaClassInstanceList(List<YogaClassInstance> mYogaClassInstanceList) {
+        this.mYogaClassInstanceList = mYogaClassInstanceList;
+    }
+
     @NonNull
     @Override
     public YogaClassInstanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,10 +61,10 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull YogaClassInstanceViewHolder holder, int position) {
-        YogaClassInstance yogaClassInstance = mListYogaClassInstance.get(position);
+        YogaClassInstance yogaClassInstance = mYogaClassInstanceList.get(position);
         if(yogaClassInstance == null) return;
         //Get name course from YogaCourse
-        YogaCourse yogaCourse = getYogaCourseByID(yogaClassInstance.getYoga_course_id());
+        YogaCourse yogaCourse = getYogaCourseById(yogaClassInstance.getYoga_course_id());
         if(yogaCourse == null) return;
 
         if(yogaCourse.getType_of_class().equals("Flow Yoga"))
@@ -76,8 +94,8 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
 
     @Override
     public int getItemCount() {
-        if(mListYogaClassInstance != null) {
-            return mListYogaClassInstance.size();
+        if(mYogaClassInstanceList != null) {
+            return mYogaClassInstanceList.size();
         }
         return 0;
     }
@@ -96,7 +114,7 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
             img_type_of_class = itemView.findViewById(R.id.img_type_of_class);
         }
     }
-    private YogaCourse getYogaCourseByID(int id) {
+    private YogaCourse getYogaCourseById(int id) {
         for(YogaCourse yogaCourse : mListYogaCourse) {
             if(yogaCourse.getId() == id) {
                 return yogaCourse;
@@ -119,5 +137,75 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
             }
         }
         return null;
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String strSearch = constraint.toString();
+                FilterResults filterResults = new FilterResults();
+                if(strSearch.isEmpty()) {
+                    mYogaClassInstanceList.clear();
+                } else {
+                    List<YogaClassInstance> list = new ArrayList<>();
+                    for(YogaClassInstance yogaClassInstance: mYogaClassInstancesSearchList) {
+                        if (filterOption.equals("Course")) {
+                            YogaCourse yogaCourse = getYogaCourseById(yogaClassInstance.getYoga_course_id());
+                            if(yogaCourse.getCourse_name().toLowerCase().contains(strSearch.toLowerCase())) list.add(yogaClassInstance);
+                        }
+                        if(filterOption.equals("Schedule")) {
+                          if(yogaClassInstance.getSchedule().toLowerCase().contains(strSearch.toLowerCase())) list.add(yogaClassInstance);
+                        }
+                        if(filterOption.equals("Day_of_the_week")) {
+                            if(showDayOfTheWeek(yogaClassInstance.getSchedule()).toLowerCase().contains(strSearch.toLowerCase())) list.add(yogaClassInstance);
+                        }
+                        if(filterOption.equals("Teacher")) {
+                          UserYogaClassInstance userYogaClassInstance = getUserYogaClassInstanceById(yogaClassInstance.getYoga_class_instance_id());
+                          User user = getUserByID(userYogaClassInstance.getUser_id());
+                          if(user.getUser_name().toLowerCase().contains(strSearch.toLowerCase())) list.add(yogaClassInstance);
+                        }
+                    }
+                    mYogaClassInstanceList = list;
+                }
+                filterResults.values = mYogaClassInstanceList;
+                filterResults.count = mYogaClassInstanceList.size();
+                return filterResults;
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mYogaClassInstanceList = (List<YogaClassInstance>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+    private String showDayOfTheWeek(String dateString){
+        String[] parts = dateString.split("/");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            default:
+                return "Unknown";
+        }
     }
 }

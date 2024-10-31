@@ -118,6 +118,7 @@ public class UpdateYogaCourseFragment extends Fragment {
         btn_time_of_course.setText(yogaCourse.getTime_of_course());
         tv_header_course.setText("Update Course");
         btn_submit_course.setText("Update");
+        //get position of the last selection
         spn_day_of_the_week_course.setSelection(dayOfTheWeekAdapter.getPosition(getDayOfTheWeek()));
         spn_type_of_class_course.setSelection(typeOfClassCourseAdapter.getPosition(getTypeOfClassCourse()));
     }

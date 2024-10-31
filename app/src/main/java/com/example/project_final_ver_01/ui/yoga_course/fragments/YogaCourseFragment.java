@@ -55,11 +55,12 @@ public class YogaCourseFragment extends Fragment {
         databaseHelper = mAdminHomeActivity.getDatabaseHelper();
         //Render data
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mAdminHomeActivity);
+        linearLayoutManager.setReverseLayout(true);
         rcv_yoga_course_list.setLayoutManager(linearLayoutManager);
         YogaCourseViewHolderAdapter yogaCourseAdapter = new YogaCourseViewHolderAdapter(getListYogaCourse(), new IClickItemListener() {
             @Override
             public void onClickItem(Object object) {
-                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaCourseFragment(),"object_yoga_course", object);
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaCourseFragment(),"object_yoga_class_instance", object);
             }
         });
         rcv_yoga_course_list.setAdapter(yogaCourseAdapter);
