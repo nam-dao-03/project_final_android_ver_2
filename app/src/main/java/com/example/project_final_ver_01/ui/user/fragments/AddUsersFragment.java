@@ -157,6 +157,7 @@ public class AddUsersFragment extends Fragment {
                         return;
                     }
                     createToast("Add Success", R.drawable.baseline_check_circle_24);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().createUserToFirebase();
                     dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new UsersFragment());
                 } catch (Exception e){

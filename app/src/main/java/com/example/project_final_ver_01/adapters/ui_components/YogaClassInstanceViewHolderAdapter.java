@@ -2,6 +2,8 @@ package com.example.project_final_ver_01.adapters.ui_components;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +90,14 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
         holder.tv_name_course.setText("Course: " + yogaCourse.getCourse_name());
         holder.tv_schedule.setText("Schedule: " + yogaClassInstance.getSchedule());
         holder.tv_teacher.setText("Teacher: " + user.getUser_name());
-        holder.tv_day_of_the_week.setText("Start on: " + yogaCourse.getDay_of_the_week());
+        holder.tv_day_of_the_week.setText(showDayOfTheWeek(yogaClassInstance.getSchedule()));
+        if(!showDayOfTheWeek(yogaClassInstance.getSchedule()).equals(yogaCourse.getDay_of_the_week())) {
+            holder.tv_day_of_the_week.setPaintFlags(holder.tv_day_of_the_week.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tv_day_of_the_week.setTextColor(Color.RED);
+            holder.tv_new_day_of_the_week.setText(yogaCourse.getDay_of_the_week());
+        } else {
+            holder.tv_new_day_of_the_week.setText("");
+        }
 
     }
 
@@ -102,7 +111,7 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
 
     public static class YogaClassInstanceViewHolder extends RecyclerView.ViewHolder {
         private CardView card_item_class_instance;
-        private TextView tv_name_course, tv_teacher, tv_schedule, tv_day_of_the_week;
+        private TextView tv_name_course, tv_teacher, tv_schedule, tv_day_of_the_week, tv_new_day_of_the_week;
         private ImageView img_type_of_class;
         public YogaClassInstanceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +120,7 @@ public class YogaClassInstanceViewHolderAdapter extends RecyclerView.Adapter<Yog
             tv_teacher = itemView.findViewById(R.id.tv_teacher);
             tv_schedule = itemView.findViewById(R.id.tv_schedule);
             tv_day_of_the_week = itemView.findViewById(R.id.tv_day_of_the_week);
+            tv_new_day_of_the_week = itemView.findViewById(R.id.tv_new_day_of_the_week);
             img_type_of_class = itemView.findViewById(R.id.img_type_of_class);
         }
     }

@@ -60,7 +60,7 @@ public class YogaCourseFragment extends Fragment {
         YogaCourseViewHolderAdapter yogaCourseAdapter = new YogaCourseViewHolderAdapter(getListYogaCourse(), new IClickItemListener() {
             @Override
             public void onClickItem(Object object) {
-                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaCourseFragment(),"object_yoga_class_instance", object);
+                mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaCourseFragment(),"object_yoga_course", object);
             }
         });
         rcv_yoga_course_list.setAdapter(yogaCourseAdapter);

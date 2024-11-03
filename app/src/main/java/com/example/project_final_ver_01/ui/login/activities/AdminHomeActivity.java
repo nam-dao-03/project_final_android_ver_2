@@ -8,11 +8,13 @@ import android.os.Bundle;
 
 
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
@@ -25,12 +27,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.database.DatabaseHelper;
+import com.example.project_final_ver_01.database.FirebaseSyncHelper;
 import com.example.project_final_ver_01.database.entities.User;
 import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
+import com.example.project_final_ver_01.network.NetworkUtil;
 import com.example.project_final_ver_01.ui.class_instance.fragments.AddYogaClassInstanceFragment;
 import com.example.project_final_ver_01.ui.class_instance.fragments.DetailYogaClassInstanceFragment;
 import com.example.project_final_ver_01.ui.search.activities.SearchActivity;
@@ -38,9 +43,10 @@ import com.example.project_final_ver_01.ui.yoga_course.fragments.AddCoursesFragm
 import com.example.project_final_ver_01.ui.user.fragments.AddUsersFragment;
 import com.example.project_final_ver_01.ui.class_instance.fragments.YogaClassInstanceFragment;
 import com.example.project_final_ver_01.ui.user.fragments.UsersFragment;
-import com.example.project_final_ver_01.ui.yoga_course.fragments.DetailYogaCourseFragment;
 import com.example.project_final_ver_01.ui.yoga_course.fragments.YogaCourseFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -54,7 +60,12 @@ public class AdminHomeActivity extends AppCompatActivity {
     //In dialog bottom when click floating action button
     private TextView btn_add_course,btn_add_users, btn_add_class;
     private DatabaseHelper databaseHelper;
+    private DatabaseReference firebaseDatabase;
+    private final String URL_FIREBASE = "https://android-project-final-ver-01-default-rtdb.asia-southeast1.firebasedatabase.app";
+    private FirebaseSyncHelper firebaseSyncHelper;
 
+    //Load data animation
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,12 +82,20 @@ public class AdminHomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //Set up animation
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        createAnimationLoad();
+        //Set up databases
+
         databaseHelper = new DatabaseHelper(AdminHomeActivity.this);
+        firebaseDatabase = FirebaseDatabase.getInstance(URL_FIREBASE).getReference();
+        firebaseSyncHelper = new FirebaseSyncHelper(databaseHelper, firebaseDatabase);
+        if (NetworkUtil.isInternetAvailable(this))  SyncSQLiteToFirebase();
+        else createToast("Device not connected to the internet", R.drawable.baseline_warning_24);
         //In sidebar and floating action button
         btn_img_side_bar = findViewById(R.id.btn_img_side_bar);
         btn_img_search = findViewById(R.id.btn_img_search);
         fab_add = findViewById(R.id.fab_add);
-
         //Create and add first fragment to Activity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content_frame, new YogaCourseFragment());
@@ -107,6 +126,21 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
 //
+    }
+    private void createAnimationLoad() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.secondary_color, R.color.primary_color);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(NetworkUtil.isInternetAvailable(AdminHomeActivity.this)) {
+                    SyncSQLiteToFirebase();
+                    createToast("Sync data successful", R.drawable.baseline_check_circle_24);
+                } else {
+                    createToast("Device not connected to the internet", R.drawable.baseline_warning_24);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
     public void showFab(){
         fab_add.show();
@@ -203,6 +237,18 @@ public class AdminHomeActivity extends AppCompatActivity {
         if(yogaClassInstance == null) return;
         transferDataToFragmentPage(new DetailYogaClassInstanceFragment(), "object_yoga_class_instance", yogaClassInstance);
     }
+    private void createToast(String input_text_to_toast, int imageResId){
+        Toast toast = new Toast(AdminHomeActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_custom_toast, findViewById(R.id.layout_custom_toast));
+        TextView text_toast = view.findViewById(R.id.text_toast);
+        ImageView img_icon_toast = view.findViewById(R.id.img_icon_toast);
+        text_toast.setText(input_text_to_toast);
+        img_icon_toast.setImageResource(imageResId);
+        toast.setView(view);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.show();
+    }
     public void transferDataToFragmentPage(Fragment fragment, String key, Object object) {
         Bundle bundle = new Bundle();
         if(object instanceof YogaCourse) {
@@ -235,5 +281,9 @@ public class AdminHomeActivity extends AppCompatActivity {
     //Working with database
     public DatabaseHelper getDatabaseHelper(){
         return databaseHelper;
+    }
+    public FirebaseSyncHelper getFirebaseSyncHelper(){return firebaseSyncHelper;}
+    private void SyncSQLiteToFirebase(){
+        firebaseSyncHelper.pushDataSQLiteToFirebase();
     }
 }

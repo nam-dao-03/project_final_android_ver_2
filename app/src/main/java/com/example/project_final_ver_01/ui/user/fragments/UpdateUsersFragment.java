@@ -128,7 +128,7 @@ public class UpdateUsersFragment extends Fragment {
                         return;
                     }
                     if(checkUniqueUser(user_name)) {
-                        createToast("Already have user name", R.drawable.baseline_check_circle_24);
+                        createToast("Already have user name", R.drawable.baseline_warning_24);
                         return;
                     }
                     confirmDialog(email_user,role_user,phone_number_user,user_name,description_user);
@@ -190,6 +190,7 @@ public class UpdateUsersFragment extends Fragment {
                         return;
                     }
                     createToast("Update Success", R.drawable.baseline_check_circle_24);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().updateUserToFirebase(user.getId(), user);
                     dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new UsersFragment());
                 } catch (Exception e){

@@ -55,12 +55,28 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start on: "
+                    android:textSize="20dp"
+                    android:textColor="@color/light_black"
+                    />
+                <TextView
                     android:id="@+id/tv_day_of_the_week_detail_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start on: Thursday"
+                    android:text="Thursday"
                     android:textSize="20dp"
                     android:textColor="@color/light_black"
+                    />
+                <TextView
+                    android:id="@+id/tv_new_day_of_the_week_detail_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Saturday"
+                    android:textSize="20dp"
+                    android:textColor="@color/secondary_color"
                     />
                 <View
                     android:layout_width="0dp"

@@ -31,7 +31,6 @@ import com.example.project_final_ver_01.database.entities.UserYogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
 import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
-import com.example.project_final_ver_01.ui.login.activities.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -231,6 +230,8 @@ public class AddYogaClassInstanceFragment extends Fragment {
                         return;
                     }
                     createToast("Add Success", R.drawable.baseline_check_circle_24);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().createYogaClassInstanceToFirebase();
+//                    mAdminHomeActivity.getFirebaseSyncHelper().createUserYogaClassInstanceToFirebase();
                     dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new YogaClassInstanceFragment());
                 } catch (Exception e) {

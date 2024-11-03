@@ -132,22 +132,64 @@ public class DetailUserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    yogaClassInstance = getYogaClassInstanceById(Objects.requireNonNull(getUserYogaClassInstanceByUserId(user.getId())).getYoga_class_instance_id());
-                    if (yogaClassInstance != null) {
-                        createToast("You must delete class instance first " + yogaClassInstance.getSchedule(), R.drawable.baseline_warning_24);
-                        dialog.dismiss();
-                        return;
-                    }
                     dialog.dismiss();
-                    mAdminHomeActivity.replaceFragment(new UsersFragment());
-                    boolean result = databaseHelper.deleteUser(user);
-                    if(!result) {
-                        createToast("Error", R.drawable.baseline_warning_24);
-                        return;
+                    userYogaClassInstance = getUserYogaClassInstanceByUserId(user.getId());
+                    if(userYogaClassInstance == null) {
+                        mAdminHomeActivity.replaceFragment(new UsersFragment());
+                        boolean result = databaseHelper.deleteUser(user);
+                        if(!result) {
+                            createToast("Error", R.drawable.baseline_warning_24);
+                            return;
+                        }
+//                        mAdminHomeActivity.getFirebaseSyncHelper().deleteUserToFirebase(user.getId());
+                        createToast("Deleted " + user.getUser_name(), R.drawable.baseline_check_circle_24);
                     }
-                    createToast("Deleted " + user.getUser_name(), R.drawable.baseline_check_circle_24);
+                    if(userYogaClassInstance != null) {
+                        yogaClassInstance = getYogaClassInstanceById(userYogaClassInstance.getYoga_class_instance_id());
+                        if (yogaClassInstance != null) {
+                            createToast("You must delete class instance first " + yogaClassInstance.getSchedule(), R.drawable.baseline_warning_24);
+                            dialog.dismiss();
+                            return;
+                        }
+                        dialog.dismiss();
+                        mAdminHomeActivity.replaceFragment(new UsersFragment());
+                        boolean result = databaseHelper.deleteUser(user);
+                        if(!result) {
+                            createToast("Error", R.drawable.baseline_warning_24);
+                            return;
+                        }
+                        boolean result_2 = databaseHelper.deleteUserYogaClassInstance(userYogaClassInstance);
+                        if(!result_2) {
+                            createToast("Error", R.drawable.baseline_warning_24);
+                            return;
+                        }
+//                        mAdminHomeActivity.getFirebaseSyncHelper().deleteUserToFirebase(user.getId());
+//                        mAdminHomeActivity.getFirebaseSyncHelper().deleteUserYogaClassInstanceToFirebase(userYogaClassInstance.getYoga_class_instance_id());
+                        createToast("Deleted " + user.getUser_name(), R.drawable.baseline_check_circle_24);
+                    }
+//                    yogaClassInstance = getYogaClassInstanceById(userYogaClassInstance.getYoga_class_instance_id());
+//                    if (yogaClassInstance != null) {
+//                        createToast("You must delete class instance first " + yogaClassInstance.getSchedule(), R.drawable.baseline_warning_24);
+//                        dialog.dismiss();
+//                        return;
+//                    }
+//                    dialog.dismiss();
+//                    mAdminHomeActivity.replaceFragment(new UsersFragment());
+//                    boolean result = databaseHelper.deleteUser(user);
+//                    if(!result) {
+//                        createToast("Error", R.drawable.baseline_warning_24);
+//                        return;
+//                    }
+//                    boolean result_2 = databaseHelper.deleteUserYogaClassInstance(userYogaClassInstance);
+//                    if(!result_2) {
+//                        createToast("Error", R.drawable.baseline_warning_24);
+//                        return;
+//                    }
+//                    mAdminHomeActivity.getFirebaseSyncHelper().deleteUserToFirebase(user.getId());
+//                    mAdminHomeActivity.getFirebaseSyncHelper().deleteUserYogaClassInstanceToFirebase(userYogaClassInstance.getYoga_class_instance_id());
+//                    createToast("Deleted " + user.getUser_name(), R.drawable.baseline_check_circle_24);
                 } catch (Exception e) {
-                    Toast.makeText(mAdminHomeActivity, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mAdminHomeActivity, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

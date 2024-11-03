@@ -296,4 +296,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
+    //sync data firebase
+    public void addOrUpdateUser(User user) {
+        List<User> userList = getAllUser();
+        if(userList.isEmpty()) {
+            addUser(user);
+            return;
+        }
+        for (User userCheck: userList) {
+            if(userCheck.getId() == user.getId()) {
+                updateUser(user);
+            } else {
+                addUser(user);
+            }
+        }
+    }
+
 }

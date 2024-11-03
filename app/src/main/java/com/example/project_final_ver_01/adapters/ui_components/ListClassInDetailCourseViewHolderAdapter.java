@@ -1,11 +1,11 @@
 package com.example.project_final_ver_01.adapters.ui_components;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,24 +19,27 @@ import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
 import com.example.project_final_ver_01.interfaces.IClickItemListener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class ListClassInDetailCourseViewHolderAdapter extends RecyclerView.Adapter<ListClassInDetailCourseViewHolderAdapter.ListClassInDetailCourseViewHolder> {
 
     private List<YogaClassInstance> mYogaClassInstanceList;
     private List<UserYogaClassInstance> mUserYogaClassInstanceList;
+    private List<YogaCourse> mYogaCourseList;
     private List<User> mUserList;
     private IClickItemListener mIClickItemListener;
 
     //Object
     private User user;
     private YogaClassInstance yogaClassInstance;
+    private YogaCourse yogaCourse;
     private UserYogaClassInstance userYogaClassInstance;
-    public ListClassInDetailCourseViewHolderAdapter(List<YogaClassInstance> yogaClassInstanceList, List<UserYogaClassInstance> userYogaClassInstanceList, List<User> userList, IClickItemListener iClickItemListener) {
+    public ListClassInDetailCourseViewHolderAdapter(List<YogaClassInstance> yogaClassInstanceList, List<UserYogaClassInstance> userYogaClassInstanceList, List<User> userList, List<YogaCourse> yogaCourseList, IClickItemListener iClickItemListener) {
         this.mYogaClassInstanceList = yogaClassInstanceList;
         this.mUserYogaClassInstanceList = userYogaClassInstanceList;
+        this.mYogaCourseList = yogaCourseList;
         this.mUserList = userList;
         this.mIClickItemListener = iClickItemListener;
     }
@@ -54,8 +57,10 @@ public class ListClassInDetailCourseViewHolderAdapter extends RecyclerView.Adapt
         if(yogaClassInstance == null) return;
         userYogaClassInstance = getUserYogaClassInstanceById(yogaClassInstance.getYoga_class_instance_id());
         if(userYogaClassInstance == null) return;
-        user = getUserByID(userYogaClassInstance.getUser_id());
+        user = getUserById(userYogaClassInstance.getUser_id());
         if(user == null) return;
+        yogaCourse = getYogaCourseById(yogaClassInstance.getYoga_course_id());
+        if(yogaCourse == null) return;
         holder.card_item_class_instance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +69,15 @@ public class ListClassInDetailCourseViewHolderAdapter extends RecyclerView.Adapt
         });
         holder.tv_teacher.setText("Teacher: " + user.getUser_name());
         holder.tv_schedule.setText("Schedule: " + yogaClassInstance.getSchedule());
-        holder.tv_day_of_the_week.setText("Start on: " + showDayOfTheWeek(yogaClassInstance.getSchedule()));
+        holder.tv_day_of_the_week.setText(showDayOfTheWeek(yogaClassInstance.getSchedule()));
+
+        if(!showDayOfTheWeek(yogaClassInstance.getSchedule()).equals(yogaCourse.getDay_of_the_week())) {
+            holder.tv_day_of_the_week.setPaintFlags(holder.tv_day_of_the_week.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tv_day_of_the_week.setTextColor(Color.RED);
+            holder.tv_new_day_of_the_week.setText(yogaCourse.getDay_of_the_week());
+        } else {
+            holder.tv_new_day_of_the_week.setText("");
+        }
     }
 
     @Override
@@ -76,13 +89,14 @@ public class ListClassInDetailCourseViewHolderAdapter extends RecyclerView.Adapt
     }
     public static class ListClassInDetailCourseViewHolder extends RecyclerView.ViewHolder {
         private CardView card_item_class_instance;
-        private TextView tv_teacher, tv_schedule, tv_day_of_the_week;
+        private TextView tv_teacher, tv_schedule, tv_day_of_the_week, tv_new_day_of_the_week;
         public ListClassInDetailCourseViewHolder(@NonNull View itemView){
             super(itemView);
             card_item_class_instance = itemView.findViewById(R.id.card_item_class_instance);
             tv_teacher = itemView.findViewById(R.id.tv_teacher);
             tv_schedule = itemView.findViewById(R.id.tv_schedule);
             tv_day_of_the_week = itemView.findViewById(R.id.tv_day_of_the_week);
+            tv_new_day_of_the_week = itemView.findViewById(R.id.tv_new_day_of_the_week);
         }
     }
 
@@ -94,10 +108,18 @@ public class ListClassInDetailCourseViewHolderAdapter extends RecyclerView.Adapt
         }
         return null;
     }
-    private User getUserByID(int id) {
+    private User getUserById(int id) {
         for(User user: mUserList) {
             if(user.getId() == id) {
                 return user;
+            }
+        }
+        return null;
+    }
+    private YogaCourse getYogaCourseById(int id) {
+        for(YogaCourse yogaCourse: mYogaCourseList) {
+            if(yogaCourse.getId() == id) {
+                return yogaCourse;
             }
         }
         return null;

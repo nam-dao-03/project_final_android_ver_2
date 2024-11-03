@@ -116,7 +116,7 @@ public class DetailYogaCourseFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         linearLayoutManager.setReverseLayout(true);
         rcv_class_instance.setLayoutManager(linearLayoutManager);
-        ListClassInDetailCourseViewHolderAdapter listClassInDetailCourseViewHolderAdapter = new ListClassInDetailCourseViewHolderAdapter(getClassInstanceList(), getUserYogaClassInstanceList(), getUserList("Teacher"),new IClickItemListener() {
+        ListClassInDetailCourseViewHolderAdapter listClassInDetailCourseViewHolderAdapter = new ListClassInDetailCourseViewHolderAdapter(getClassInstanceList(), getUserYogaClassInstanceList(), getUserList("Teacher"),getYogaCourseList(),new IClickItemListener() {
             @Override
             public void onClickItem(Object object) {
                 mAdminHomeActivity.transferDataToFragmentPage(new DetailYogaClassInstanceFragment(), "object_yoga_class_instance", object);
@@ -176,6 +176,7 @@ public class DetailYogaCourseFragment extends Fragment {
                         createToast("Error", R.drawable.baseline_warning_24);
                     }
                         createToast("Deleted " + yogaCourse.getCourse_name(), R.drawable.baseline_check_circle_24);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().deleteYogaCourseToFirebase(yogaCourse.getId());
                     dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new YogaCourseFragment());
                 } catch (Exception e) {
@@ -202,6 +203,9 @@ public class DetailYogaCourseFragment extends Fragment {
             }
         }
         return yogaClassInstanceList;
+    }
+    private List<YogaCourse> getYogaCourseList(){
+        return databaseHelper.getALlYogaCourse();
     }
     private List<UserYogaClassInstance> getUserYogaClassInstanceList(){
         return databaseHelper.getAllUserYogaClassInstance();

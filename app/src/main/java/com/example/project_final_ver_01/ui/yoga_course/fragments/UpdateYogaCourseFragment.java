@@ -105,6 +105,8 @@ public class UpdateYogaCourseFragment extends Fragment {
         databaseHelper = mAdminHomeActivity.getDatabaseHelper();
 
         //Signing variable
+        tv_header_course.setText("Update Course");
+        btn_submit_course.setText("Update");
         bundleReceive = getArguments();
         if(bundleReceive == null) return;
         yogaCourse = (YogaCourse) bundleReceive.get("object_yoga_course");
@@ -116,8 +118,6 @@ public class UpdateYogaCourseFragment extends Fragment {
         et_price_per_class_course.setText(String.valueOf(yogaCourse.getPrice_per_class()));
         et_description_course.setText(yogaCourse.getDescriptions());
         btn_time_of_course.setText(yogaCourse.getTime_of_course());
-        tv_header_course.setText("Update Course");
-        btn_submit_course.setText("Update");
         //get position of the last selection
         spn_day_of_the_week_course.setSelection(dayOfTheWeekAdapter.getPosition(getDayOfTheWeek()));
         spn_type_of_class_course.setSelection(typeOfClassCourseAdapter.getPosition(getTypeOfClassCourse()));
@@ -234,6 +234,7 @@ public class UpdateYogaCourseFragment extends Fragment {
                         createToast("Error", R.drawable.baseline_warning_24);
                         return;
                     }
+//                    mAdminHomeActivity.getFirebaseSyncHelper().updateYogaCourseToFirebase(yogaCourse.getId(), yogaCourse);
                     createToast("Update Success", R.drawable.baseline_check_circle_24);
                     mAdminHomeActivity.replaceFragment(new YogaCourseFragment());
                 } catch (Exception e) {

@@ -237,6 +237,8 @@ public class UpdateYogaClassInstanceFragment extends Fragment {
                         createToast("Error", R.drawable.baseline_warning_24);
                         return;
                     }
+//                    mAdminHomeActivity.getFirebaseSyncHelper().updateYogaClassInstanceToFirebase(yogaClassInstance.getYoga_class_instance_id(), yogaClassInstance);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().updateUserYogaClassInstanceToFirebase(userYogaClassInstance.getYoga_class_instance_id(), userYogaClassInstance);
                     createToast("Update Success", R.drawable.baseline_check_circle_24);
                     mAdminHomeActivity.replaceFragment(new YogaClassInstanceFragment());
                 } catch (Exception e) {

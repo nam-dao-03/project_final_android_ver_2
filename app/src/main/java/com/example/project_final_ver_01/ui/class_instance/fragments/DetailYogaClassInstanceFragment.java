@@ -3,8 +3,8 @@ package com.example.project_final_ver_01.ui.class_instance.fragments;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +27,7 @@ import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.database.entities.YogaCourse;
 import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class DetailYogaClassInstanceFragment extends Fragment {
     //Define widgets in fragment
     private View mView;
     private ImageView img_decoration_detail_class;
-    private TextView tv_name_detail_course_class, tv_type_of_class_detail_class, tv_day_of_the_week_detail_class, tv_time_detail_of_class, tv_schedule_detail_class, tv_capacity_detail_class, tv_duration_detail_class, tv_description_detail_class, tv_teacher_detail_class;
+    private TextView tv_name_detail_course_class, tv_type_of_class_detail_class, tv_day_of_the_week_detail_class, tv_new_day_of_the_week_detail_class, tv_time_detail_of_class, tv_schedule_detail_class, tv_capacity_detail_class, tv_duration_detail_class, tv_description_detail_class, tv_teacher_detail_class;
     private Button btn_delete_detail_class, btn_update_detail_class;
     //Define widgets in dialog
     private TextView tv_delete_name, tv_action_no, tv_action_yes;
@@ -80,6 +81,7 @@ public class DetailYogaClassInstanceFragment extends Fragment {
         tv_name_detail_course_class = mView.findViewById(R.id.tv_name_detail_course_class);
         tv_type_of_class_detail_class = mView.findViewById(R.id.tv_type_of_class_detail_class);
         tv_day_of_the_week_detail_class = mView.findViewById(R.id.tv_day_of_the_week_detail_class);
+        tv_new_day_of_the_week_detail_class = mView.findViewById(R.id.tv_new_day_of_the_week_detail_class);
         tv_time_detail_of_class = mView.findViewById(R.id.tv_time_detail_of_class);
         tv_schedule_detail_class = mView.findViewById(R.id.tv_schedule_detail_class);
         tv_teacher_detail_class = mView.findViewById(R.id.tv_teacher_detail_class);
@@ -99,7 +101,7 @@ public class DetailYogaClassInstanceFragment extends Fragment {
         YogaCourse yogaCourse = getYogaCourseById(yogaClassInstance.getYoga_course_id());
         if(yogaCourse == null) return;
         String name_course = yogaCourse.getCourse_name();
-        User user = getUserById(Objects.requireNonNull(getUserYogaClassInstanceById(yogaClassInstance.getYoga_class_instance_id())).getUser_id());
+        User user = getUserById(Objects.requireNonNull(getUserYogaClassInstanceByYogaClassInstanceId(yogaClassInstance.getYoga_class_instance_id())).getUser_id());
         if(user == null) return;
         tv_name_detail_course_class.setText("Course: " + name_course);
         String type_of_class = yogaCourse.getType_of_class();
@@ -110,7 +112,14 @@ public class DetailYogaClassInstanceFragment extends Fragment {
             img_decoration_detail_class.setImageResource(R.drawable.img_yoga_class_02);
         if(type_of_class.equals("Family Yoga"))
             img_decoration_detail_class.setImageResource(R.drawable.img_yoga_class_03);
-        tv_day_of_the_week_detail_class.setText("Start on: " + yogaCourse.getDay_of_the_week());
+        tv_day_of_the_week_detail_class.setText(showDayOfTheWeek(yogaClassInstance.getSchedule()));
+        if(!showDayOfTheWeek(yogaClassInstance.getSchedule()).equals(yogaCourse.getDay_of_the_week())) {
+            tv_day_of_the_week_detail_class.setPaintFlags(tv_day_of_the_week_detail_class.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            tv_day_of_the_week_detail_class.setTextColor(Color.RED);
+            tv_new_day_of_the_week_detail_class.setText(yogaCourse.getDay_of_the_week());
+        } else {
+            tv_new_day_of_the_week_detail_class.setText("");
+        }
         tv_time_detail_of_class.setText("Time: " + yogaCourse.getTime_of_course());
         tv_schedule_detail_class.setText("Schedule: " + yogaClassInstance.getSchedule());
         tv_teacher_detail_class.setText("Teacher: " + user.getUser_name());
@@ -168,11 +177,7 @@ public class DetailYogaClassInstanceFragment extends Fragment {
                         createToast("Error", R.drawable.baseline_warning_24);
                         return;
                     }
-                    boolean result_2 = databaseHelper.deleteUserYogaClassInstance(Objects.requireNonNull(getUserYogaClassInstanceById(yogaClassInstance.getYoga_class_instance_id())));
-                    if(!result_2) {
-                        createToast("Error", R.drawable.baseline_warning_24);
-                        return;
-                    }
+//                    mAdminHomeActivity.getFirebaseSyncHelper().deleteYogaClassInstanceToFirebase(yogaClassInstance.getYoga_class_instance_id());
                     createToast("Deleted " + yogaClassInstance.getSchedule(), R.drawable.baseline_check_circle_24);
                 } catch (Exception e) {
                     Toast.makeText(mAdminHomeActivity, e.toString(), Toast.LENGTH_SHORT).show();
@@ -199,7 +204,7 @@ public class DetailYogaClassInstanceFragment extends Fragment {
         }
         return null;
     }
-    private UserYogaClassInstance getUserYogaClassInstanceById(int id) {
+    private UserYogaClassInstance getUserYogaClassInstanceByYogaClassInstanceId(int id) {
         List<UserYogaClassInstance> userYogaClassInstanceList = databaseHelper.getAllUserYogaClassInstance();
         for(UserYogaClassInstance userYogaClassInstance: userYogaClassInstanceList) {
             if(userYogaClassInstance.getYoga_class_instance_id() == id) {
@@ -207,6 +212,33 @@ public class DetailYogaClassInstanceFragment extends Fragment {
             }
         }
         return null;
+    }
+    private String showDayOfTheWeek(String dateString){
+        String[] parts = dateString.split("/");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            default:
+                return "Unknown";
+        }
     }
     private void createToast(String input_text_to_toast, int imageResId){
         Toast toast = new Toast(requireContext());

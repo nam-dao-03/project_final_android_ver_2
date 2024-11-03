@@ -65,15 +65,35 @@
                 android:textSize="18sp"
                 android:textColor="@color/light_black"
                 android:text="Schedule: 20/11/2024"/>
-            <TextView
-                android:id="@+id/tv_day_of_the_week"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="5dp"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:textColor="@color/light_black"
-                android:text="Start on: Friday"/>
+                android:paddingStart="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/light_black"
+                    android:text="Start on: "/>
+                <TextView
+                    android:id="@+id/tv_day_of_the_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/light_black"
+                    android:text="Friday"/>
+                <TextView
+                    android:id="@+id/tv_new_day_of_the_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/secondary_color"
+                    android:text="Monday"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

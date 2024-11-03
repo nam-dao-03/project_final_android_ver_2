@@ -201,6 +201,8 @@ public class AddCoursesFragment extends Fragment {
                         return;
                     }
                     createToast("Add Success", R.drawable.baseline_check_circle_24);
+//                    mAdminHomeActivity.getFirebaseSyncHelper().createYogaCourseToFirebase();
+                    dialog.dismiss();
                     mAdminHomeActivity.replaceFragment(new YogaCourseFragment());
                 } catch (Exception e) {
                     createToast("Error", R.drawable.baseline_warning_24);
@@ -228,7 +230,7 @@ public class AddCoursesFragment extends Fragment {
         spn_day_of_the_week_course.setAdapter(dayOfTheWeekAdapter);
     }
     private void createToast(String input_text_to_toast, int imageResId){
-        Toast toast = new Toast(requireContext());
+        Toast toast = new Toast(getContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_custom_toast, mView.findViewById(R.id.layout_custom_toast));
         TextView text_toast = view.findViewById(R.id.text_toast);
