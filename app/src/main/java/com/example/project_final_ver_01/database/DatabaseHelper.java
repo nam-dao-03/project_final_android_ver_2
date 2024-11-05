@@ -29,8 +29,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(User.CREATE_TABLE);
-        db.execSQL(YogaClassInstance.CREATE_TABLE);
         db.execSQL(YogaCourse.CREATE_TABLE);
+        db.execSQL(YogaClassInstance.CREATE_TABLE);
         db.execSQL(UserYogaClassInstance.CREATE_TABLE);
     }
 

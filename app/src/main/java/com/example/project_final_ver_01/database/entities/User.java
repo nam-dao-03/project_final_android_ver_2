@@ -18,6 +18,8 @@ public class User implements Serializable {
     private String email;
     private String role;
     private String phone_number;
+
+
     private String user_name;
     private String description;
     public User(int user_id, String email, String role, String phone_number, String user_name, String description) {

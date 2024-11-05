@@ -59,11 +59,14 @@ public class YogaClassInstance implements Serializable {
     //SQL Query create table
     public static final String CREATE_TABLE =
             "CREATE TABLE " +
-                    TABLE_NAME + "(" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    COLUMN_YOGA_COURSE_ID + " INTEGER," +
-                    COLUMN_SCHEDULE + " TEXT," +
-                    COLUMN_DESCRIPTION + " TEXT)";
+                    TABLE_NAME + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_YOGA_COURSE_ID + " INTEGER, " +
+                    COLUMN_SCHEDULE + " TEXT, " +
+                    COLUMN_DESCRIPTION + " TEXT, " +
+                    "FOREIGN KEY (" + COLUMN_YOGA_COURSE_ID + ") REFERENCES " +
+                    YogaCourse.TABLE_NAME + " (" + YogaCourse.COLUMN_ID + ")" +
+                    ");";
 
     public static final String GET_CLASS_LIST =
             "SELECT * FROM " + TABLE_NAME;

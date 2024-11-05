@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -21,6 +22,7 @@ import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.database.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity {
+    ConstraintLayout cl_main;
     EditText et_email_login, et_password_login;
     Button btn_login;
     private final String email = "admin@gmail.com";
@@ -39,10 +41,18 @@ public class LoginActivity extends AppCompatActivity {
 
         DatabaseHelper db = new DatabaseHelper(this);
         // declaring widget
+        cl_main = this.findViewById(R.id.main);
         et_email_login = this.findViewById(R.id.et_email_login);
         et_password_login = this.findViewById(R.id.et_password_login);
         btn_login = this.findViewById(R.id.btn_login);
         //set up interactive widget
+        cl_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_email_login.clearFocus();
+                et_password_login.clearFocus();
+            }
+        });
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
