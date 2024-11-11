@@ -58,18 +58,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     // production
-//                    String email_input =  et_email_login.getText().toString().toLowerCase().trim();
-//                    String password_input = et_password_login.getText().toString().trim();
-//                    if(email_input.equals(email) && password_input.equals(password)) {
-//                        et_email_login.setText("");
-//                        et_password_login.setText("");
-//                        Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
-//                        activity_admin_home.putExtra("email", email_input);
-//                        activity_admin_home.putExtra("password", password_input);
-//                        startActivity(activity_admin_home);
-//                    };
-                    Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
-                    startActivity(activity_admin_home);
+                    String email_input =  et_email_login.getText().toString().toLowerCase().trim();
+                    String password_input = et_password_login.getText().toString().trim();
+                    if(email_input.equals(email) && password_input.equals(password)) {
+                        et_email_login.setText("");
+                        et_password_login.setText("");
+                        Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                        activity_admin_home.putExtra("email", email_input);
+                        activity_admin_home.putExtra("password", password_input);
+                        startActivity(activity_admin_home);
+                    };
+                    // development
+//                    Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
+//                    startActivity(activity_admin_home);
                     createToast("Invalid Email or Password", R.drawable.baseline_warning_24);
                 } catch (Exception e) {
                     createToast("Missing Email or Password", R.drawable.baseline_warning_24);
