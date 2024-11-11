@@ -67,11 +67,10 @@ public class LoginActivity extends AppCompatActivity {
                         activity_admin_home.putExtra("email", email_input);
                         activity_admin_home.putExtra("password", password_input);
                         startActivity(activity_admin_home);
-                    };
+                    } else createToast("Invalid Email or Password", R.drawable.baseline_warning_24);
                     // development
 //                    Intent activity_admin_home = new Intent(LoginActivity.this, AdminHomeActivity.class);
 //                    startActivity(activity_admin_home);
-                    createToast("Invalid Email or Password", R.drawable.baseline_warning_24);
                 } catch (Exception e) {
                     createToast("Missing Email or Password", R.drawable.baseline_warning_24);
                 }
