@@ -25,6 +25,8 @@ import com.example.project_final_ver_01.R;
 import com.example.project_final_ver_01.adapters.non_ui_components.RoleUserAdapter;
 import com.example.project_final_ver_01.database.DatabaseHelper;
 import com.example.project_final_ver_01.database.entities.User;
+import com.example.project_final_ver_01.database.entities.UserYogaClassInstance;
+import com.example.project_final_ver_01.database.entities.YogaClassInstance;
 import com.example.project_final_ver_01.ui.login.activities.AdminHomeActivity;
 
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class UpdateUsersFragment extends Fragment {
     List<RoleUserAdapter.RoleUser> roleUserList = new ArrayList<>();
     //Define Object
     private User user;
+    private YogaClassInstance yogaClassInstance;
+    private UserYogaClassInstance userYogaClassInstance;
     //Define Database
     private DatabaseHelper databaseHelper;
 
@@ -66,7 +70,6 @@ public class UpdateUsersFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         mView = inflater.inflate(R.layout.fragment_add_update_users, container, false);
         initUI();
         setListenersForWidget();
@@ -123,6 +126,7 @@ public class UpdateUsersFragment extends Fragment {
                     String phone_number_user = et_phone_number_user.getText().toString().trim();
                     String user_name = et_name_user.getText().toString().trim();
                     String description_user = et_description_user.getText().toString().trim();
+
                     if(email_user.isEmpty() || role_user.isEmpty() || user_name.isEmpty() || phone_number_user.isEmpty() || description_user.isEmpty()) {
                         createToast("Please fill full input", R.drawable.baseline_warning_24);
                         return;
@@ -179,6 +183,17 @@ public class UpdateUsersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
+
+                    if(user.getRole().equals("Teacher") && et_confirm_role_user.getText().toString().trim().equals("Student")) {
+                        userYogaClassInstance = getUserYogaClassInstanceByUserId(user.getId());
+                        if(userYogaClassInstance == null) return;
+                        yogaClassInstance = getYogaClassInstanceById(userYogaClassInstance.getYoga_class_instance_id());
+                        if(yogaClassInstance != null) {
+                            createToast("User has a own class", R.drawable.baseline_warning_24);
+                            return;
+                        }
+                    }
+
                     user.setEmail(email_user);
                     user.setRole(role_user);
                     user.setPhone_number(phone_number_user);
@@ -234,5 +249,21 @@ public class UpdateUsersFragment extends Fragment {
         toast.setView(view);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
+    }
+    private UserYogaClassInstance getUserYogaClassInstanceByUserId(int user_id){
+        List<UserYogaClassInstance> userYogaClassInstanceList = databaseHelper.getAllUserYogaClassInstance();
+        for(UserYogaClassInstance userYogaClassInstance: userYogaClassInstanceList) {
+            if(userYogaClassInstance.getUser_id() == user_id) return userYogaClassInstance;
+        }
+        return null;
+    }
+    private YogaClassInstance getYogaClassInstanceById(int id) {
+        List<YogaClassInstance> yogaClassInstanceList = databaseHelper.getAllYogaClassInstance();
+        for(YogaClassInstance yogaClassInstance: yogaClassInstanceList) {
+            if(yogaClassInstance.getYoga_class_instance_id() == id) {
+                return yogaClassInstance;
+            }
+        }
+        return null;
     }
 }
